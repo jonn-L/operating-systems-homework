@@ -1,0 +1,130 @@
+===============================================================================
+
+a)
+
+shared object data;
+shared int readcount = 0;
+semaphore mutex = 1, writer = 1;
+
+void reader()
+{
+   |down(&mutex);
+   |readcount = readcount + 1;
+   |if (readcount == 1) down(&writer);
+   |up(&mutex);
+    read_shared_object(&data);
+   |down(&mutex);
+   |readcount = readcount - 1;
+   |up(&mutex);
+    if (readcount == 0) up(&writer);
+}
+
+void writer()
+{
+    down(&writer);
+    write_shared_object(&data);
+    up(&writer);
+}
+
+
+The solution is incorrect because it breaks the "Processes that modify the 
+shared data object (the writers) may only do so if no other process
+(reader or writer) accesses the shared data object" rule. 
+This as a result of "if (readcount == 0) up(&writer);" being outside a crtical
+seciton causing a race condition; multiple reading processes could reach this 
+line concurrently while the readcount is equal to 0, which will in turn wake up
+multiple writing processes, and thus breaking the afermentioned rule.
+
+===============================================================================
+
+b)
+
+shared object data;
+shared int readcount = 0;
+semaphore mutex = 1, writer = 1;
+
+void reader()
+{
+   |down(&mutex);
+   |readcount = readcount + 1;
+   |if (readcount == 1) down(&writer);
+   |up(&mutex);
+    read_shared_object(&data);
+   |down(&mutex);
+   |readcount = readcount - 1;
+   |if (readcount == 0) {
+   |    up(&mutex);
+        up(&writer);
+   |} else {
+   |    up(&mutex);
+   |}
+}
+
+void writer()
+{
+    down(&writer);
+    write_shared_object(&data);
+    up(&writer);
+}
+
+The solution is incorrect because it also breaks the "Processes that modify the 
+shared data object (the writers) may only do so if no other process
+(reader or writer) accesses the shared data object" rule. 
+Again, this as a result of "if (readcount == 0) up(&writer);" being outside a 
+crtical seciton causing a race condition; multiple reading processes could 
+reach this line concurrently while the readcount is equal to 0, which will in 
+turn wake up multiple writing processes, and thus breaking the afermentioned 
+rule, just like in the previous incorrect solution.
+
+===============================================================================
+
+c)
+
+shared object data;
+shared int readcount = 0;
+semaphore mutex = 1, writer = 1;
+
+void reader()
+{
+   |down(&mutex);
+   |readcount = readcount + 1;
+   |if (readcount == 1) down(&writer);
+   |up(&mutex);
+    read_shared_object(&data);
+   |down(&mutex);
+   |readcount = readcount - 1;
+   |if (readcount == 0) up(&writer);
+   |up(&mutex);
+}
+
+void writer()
+{
+    down(&writer);
+   |down(&mutex);
+   |write_shared_object(&data);
+   |up(&mutex);
+    up(&writer);
+}
+
+The solution is incorrect because a deadlock can occur in cases similar to 
+this:
+
+w0: down(&writer) => writing = 0
+w0: down(&mutex) => mutex = 0
+w0: up(&mutex) => mutex = 1 
+w1: down(&writer) => writer = -1; w1 is QUEUED 
+r2: down(&mutex) => mutex = 0 
+r2: down(&writer) => writer = -2; r2 is QUEUED 
+w0: up(&writer) => writer = -1; w1 is DEQUEUED
+w1: down(&mutex) => mutex = -1; w1 = QUEUED
+
+Now that w1 is queued, there is no other ongoing writing or reading processes 
+left that is not queued. This means that the only other choice is to create a
+new reading or writing process. Creating either causes a deadlock: 
+
+1. The reading process will call down(&mutex) which decrements mutex to -2 and
+queues the process.
+2. The writing process will call down(&writer) which decrements writing to -2 
+and queues the process.
+
+===============================================================================

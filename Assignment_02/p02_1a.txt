@@ -1,0 +1,14 @@
+main:
+    addi    sp,sp,-48       ; allocate stack frame (allocates 48 bytes)
+    sd      s0,40(sp)       ; store sfp value in mem[sp + 40]             
+    addi    s0,sp,48        ; set sfp to point to the beginning of the stack
+    mv      a5,a0           ; move value of a0 (argc) into a5 
+    sd      a1,-48(s0)      ; store a1 (argv) in mem[sfp - 48]
+    sw      a5,-36(s0)      ; store a5 (argc) in mem[sfp - 36]
+    sw      zero,-20(s0)    ; store 0 (rc) in mem[sfp - 20]
+    lw      a5,-20(s0)      ; load mem[sfp - 20] (rc) into a5
+    mv      a0,a5           ; move value of a5 (rc) into a0
+    ld      s0,40(sp)       ; load mem[sp + 40] (original value of sfp) into sfp
+    addi    sp,sp,48        ; deallocate stack frame (deallocates 48 bytes)
+    jr      ra              ; jump to return address
+
