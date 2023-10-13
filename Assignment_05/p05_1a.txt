@@ -1,0 +1,65 @@
+===============================================================================
+
+person_life(person)
+{
+    while (1) {
+        switch (person->type) {
+            case traveler:  
+                stand_visit_traveler(stand, person);
+                break;
+            case driver:
+                stand_visit_driver(stand, person);
+                break;
+        }
+        sleep(random());
+    }
+}
+
+int waiting_drivers = 0;
+int waiting_travelers = 0;
+semaphore mutex = 1, driver = 0, traveler = 0;
+
+stand_visit_driver(stand, person) {
+    down(&mutex);
+    // case 1
+    if (waiting_travelers == 0) {
+        waiting_drivers++;
+        up(&traveler);
+    }
+    up(&mutex);
+    down(&driver);
+
+    down(&mutex);
+    // case 2
+    if (waiting_travelers > 0) {
+        drivers--;
+        for (int i = 0; i < travelers; i++) {
+            up(&traveler);
+        }
+        waiting_travelers = 0;
+    }
+    up(&mutex);
+}
+
+stand_visit_traveler(stand, person) {
+    down(&mutex);
+    // case 3
+    if (waiting_drivers == 0) {
+        waiting_travelers++;
+        if (waiting_travelers == 0) {
+            up(&driver); 
+        }
+    }
+    up(&mutex);
+    down(&traveler);
+
+    down(&mutex);
+    // case 4
+    if (waiting_drivers > 0) {
+        drivers--;
+        up(&driver); //asume this is the longest waiting driver
+    }
+    up(&mutex);
+}
+
+===============================================================================
