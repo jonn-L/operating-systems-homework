@@ -1,0 +1,64 @@
+===============================================================================
+
+Alloc matrix:
+| 1 1 0 0 |
+| 0 0 1 0 |
+| 0 1 1 1 |
+
+Needed resources:
+| 1 0 0 0 |
+| 0 1 0 1 |
+| 1 0 0 0 |
+
+Currently available resources:
+[2 0 1 0]
+
+Currently ready:
+[0 2]
+
+-------------------------------------------------------------------------------
+
+Alloc matrix:
+| 0 0 1 0 |
+| 0 1 1 1 |
+
+Needed resources:
+| 0 1 0 1 |
+| 1 0 0 0 |
+
+Currently available resources:
+[3 1 1 0]
+
+Currently ready:
+[1]
+
+-------------------------------------------------------------------------------
+
+Alloc matrix:
+| 0 0 1 0 |
+
+Needed resources:
+| 0 1 0 1 |
+
+Currently available resources:
+[3 2 2 1]
+
+Currently ready:
+[0]
+
+-------------------------------------------------------------------------------
+
+Alloc matrix:
+
+Needed resources:
+
+Currently available resources:
+[3 2 3 1]
+
+Currently ready:
+[]
+
+Since there are no ready processes and the alloc matrix is empty, there is no
+deadlock.
+
+===============================================================================

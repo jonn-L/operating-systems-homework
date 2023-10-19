@@ -1,0 +1,149 @@
+===================================================================================================
+
+FCFS:
+
+Time        PID: A        PID: B        PID: C        PID: D        PID: E        PID: F 
+   0       running
+   1       running                                                       
+   2       running                                                       
+   3       running                                                       
+   4       running         READY                                               
+   5       running         READY                                         
+   6       running         READY         READY                           
+   7       running         READY         READY                           
+   8       running         READY         READY         READY             
+   9          DONE       running         READY         READY                
+  10          DONE       running         READY         READY                
+  11          DONE       running         READY         READY                
+  12          DONE       running         READY         READY                
+  13          DONE       running         READY         READY         READY                
+  14          DONE       running         READY         READY         READY  
+  15          DONE       running         READY         READY         READY         READY              
+  16          DONE       running         READY         READY         READY         READY
+  17          DONE          DONE         READY         READY         READY         READY 
+  18          DONE          DONE       running         READY         READY         READY    
+  19          DONE          DONE       running         READY         READY         READY      
+  20          DONE          DONE          DONE       running         READY         READY      
+  21          DONE          DONE          DONE       running         READY         READY     
+  22          DONE          DONE          DONE       running         READY         READY    
+  23          DONE          DONE          DONE       running         READY         READY      
+  24          DONE          DONE          DONE       running         READY         READY      
+  25          DONE          DONE          DONE          DONE       running         READY         
+  26          DONE          DONE          DONE          DONE       running         READY     
+  27          DONE          DONE          DONE          DONE       running         READY     
+  28          DONE          DONE          DONE          DONE       running         READY     
+  29          DONE          DONE          DONE          DONE          DONE       running    
+  30          DONE          DONE          DONE          DONE          DONE          DONE
+
+---------------------------------------------------------------------------------------------------
+
+SPTF:
+
+Time        PID: A        PID: B        PID: C        PID: D        PID: E        PID: F 
+   0       running
+   1       running                                                       
+   2       running                                                       
+   3       running                                                       
+   4       running         READY                                               
+   5       running         READY                                         
+   6       running         READY         READY                           
+   7       running         READY         READY                           
+   8       running         READY         READY         READY             
+   9          DONE         READY       running         READY                
+  10          DONE         READY       running         READY                
+  11          DONE         READY          DONE       running                
+  12          DONE         READY          DONE       running                
+  13          DONE         READY          DONE       running         READY                
+  14          DONE         READY          DONE       running         READY  
+  15          DONE         READY          DONE       running         READY         READY              
+  16          DONE         READY          DONE          DONE       running         READY
+  17          DONE         READY          DONE          DONE       running         READY 
+  18          DONE         READY          DONE          DONE       running         READY    
+  19          DONE         READY          DONE          DONE       running         READY      
+  20          DONE         READY          DONE          DONE          DONE       running      
+  21          DONE       running          DONE          DONE          DONE          DONE     
+  22          DONE       running          DONE          DONE          DONE          DONE    
+  23          DONE       running          DONE          DONE          DONE          DONE      
+  24          DONE       running          DONE          DONE          DONE          DONE      
+  25          DONE       running          DONE          DONE          DONE          DONE         
+  26          DONE       running          DONE          DONE          DONE          DONE     
+  27          DONE       running          DONE          DONE          DONE          DONE     
+  28          DONE       running          DONE          DONE          DONE          DONE  
+  29          DONE          DONE          DONE          DONE          DONE          DONE
+
+---------------------------------------------------------------------------------------------------
+
+LPTF:
+
+Time        PID: A        PID: B        PID: C        PID: D        PID: E        PID: F 
+   0       running
+   1       running                                                       
+   2       running                                                       
+   3       running                                                       
+   4       running         READY                                               
+   5       running         READY                                         
+   6       running         READY         READY                           
+   7       running         READY         READY                           
+   8       running         READY         READY         READY             
+   9          DONE       running         READY         READY                
+  10          DONE       running         READY         READY                
+  11          DONE       running         READY         READY                
+  12          DONE       running         READY         READY                
+  13          DONE       running         READY         READY         READY                
+  14          DONE       running         READY         READY         READY  
+  15          DONE       running         READY         READY         READY         READY              
+  16          DONE       running         READY         READY         READY         READY
+  17          DONE          DONE         READY       running         READY         READY 
+  18          DONE          DONE         READY       running         READY         READY    
+  19          DONE          DONE         READY       running         READY         READY      
+  20          DONE          DONE         READY       running         READY         READY      
+  21          DONE          DONE         READY       running         READY         READY     
+  22          DONE          DONE         READY       running         READY         READY    
+  23          DONE          DONE         READY       running         READY         READY      
+  24          DONE          DONE         READY       running         READY         READY      
+  25          DONE          DONE         READY          DONE       running         READY         
+  26          DONE          DONE         READY          DONE       running         READY     
+  27          DONE          DONE         READY          DONE       running         READY     
+  28          DONE          DONE         READY          DONE       running         READY     
+  29          DONE          DONE       running          DONE          DONE         READY 
+  30          DONE          DONE       running          DONE          DONE         READY     
+  31          DONE          DONE          DONE          DONE          DONE       running  
+  32          DONE          DONE          DONE          DONE          DONE          DONE     
+                                                                                              
+---------------------------------------------------------------------------------------------------
+
+RR:
+
+Time        PID: A        PID: B        PID: C        PID: D        PID: E        PID: F 
+   0       running
+   1       running                                                       
+   2       running                                                       
+   3       running                                                       
+   4         READY       running                                               
+   5       running         READY                                         
+   6         READY         READY       running                           
+   7       running         READY         READY                           
+   8         READY         READY         READY       running             
+   9       running         READY         READY         READY                
+  10         READY       running         READY         READY                
+  11         READY         READY       running         READY                
+  12         READY         READY          DONE       running                
+  13         READY         READY          DONE         READY       running                
+  14       running         READY          DONE         READY         READY  
+  15         READY         READY          DONE         READY         READY       running              
+  16       running         READY          DONE         READY         READY          DONE
+  17          DONE       running          DONE         READY         READY          DONE 
+  18          DONE         READY          DONE       running         READY          DONE    
+  19          DONE         READY          DONE         READY       running          DONE      
+  20          DONE       running          DONE         READY         READY          DONE      
+  21          DONE         READY          DONE       running         READY          DONE     
+  22          DONE         READY          DONE         READY       running          DONE    
+  23          DONE       running          DONE         READY         READY          DONE      
+  24          DONE         READY          DONE       running         READY          DONE      
+  25          DONE         READY          DONE          DONE       running          DONE       
+  26          DONE       running          DONE          DONE          DONE          DONE    
+  27          DONE       running          DONE          DONE          DONE          DONE
+  28          DONE       running          DONE          DONE          DONE          DONE
+  29          DONE          DONE          DONE          DONE          DONE          DONE
+
+===================================================================================================
