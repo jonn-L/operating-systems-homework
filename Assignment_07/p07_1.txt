@@ -1,0 +1,45 @@
+===================================================================================================
+
+a) Best-Fit Algorithm
+
+| Requests | 16 KiB |  8 KiB |  6 KiB | 21 KiB | 14 KiB | 10 KiB |
+|----------+--------+--------+--------+--------+--------+--------|
+|    9 KiB | 16 KiB |  8 KiB |  6 KiB | 21 KiB | 14 KiB |  1 KiB | // allocation in block 6
+|   11 KiB | 16 KiB |  8 KiB |  6 KiB | 21 KiB |  3 KiB |  1 KiB | // allocation in block 5
+|    7 KiB | 16 KiB |  1 KiB |  6 KiB | 21 KiB |  3 KiB |  1 KiB | // allocation in block 2
+|   16 KiB |  0 KiB |  1 KiB |  6 KiB | 21 KiB |  3 KiB |  1 KiB | // allocation in block 1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+b) Worst-Fit Algorithm
+
+| Requests | 16 KiB |  8 KiB |  6 KiB | 21 KiB | 14 KiB | 10 KiB |
+|----------+--------+--------+--------+--------+--------+--------|
+|    9 KiB | 16 KiB |  8 KiB |  6 KiB | 12 KiB | 14 KiB | 10 KiB | // allocation in block 4
+|   11 KiB |  5 KiB |  8 KiB |  6 KiB | 12 KiB | 14 KiB | 10 KiB | // allocation in block 1
+|    7 KiB |  5 KiB |  8 KiB |  6 KiB | 12 KiB |  7 KiB | 10 KiB | // allocation in block 5
+|   16 KiB |  5 KiB |  8 KiB |  6 KiB | 12 KiB |  7 KiB | 10 KiB | // no space for the 16 KiB!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+c) First-Fit Algorithm
+
+| Requests | 16 KiB |  8 KiB |  6 KiB | 21 KiB | 14 KiB | 10 KiB |
+|----------+--------+--------+--------+--------+--------+--------|
+|    9 KiB |  7 KiB |  8 KiB |  6 KiB | 21 KiB | 14 KiB | 10 KiB | // allocation in block 1
+|   11 KiB |  7 KiB |  8 KiB |  6 KiB | 10 KiB | 14 KiB | 10 KiB | // allocation in block 4
+|    7 KiB |  0 KiB |  8 KiB |  6 KiB | 10 KiB | 14 KiB | 10 KiB | // allocation in block 1
+|   16 KiB |  0 KiB |  1 KiB |  6 KiB | 21 KiB |  3 KiB |  1 KiB | // no space for the 16 KiB!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+d) Next-Fit Algorithm
+
+| Requests | 16 KiB |  8 KiB |  6 KiB | 21 KiB | 14 KiB | 10 KiB |
+|----------+--------+--------+--------+--------+--------+--------|
+|    9 KiB |  7 KiB |  8 KiB |  6 KiB | 21 KiB | 14 KiB | 10 KiB | // allocation in block 1
+|   11 KiB |  7 KiB |  8 KiB |  6 KiB | 10 KiB | 14 KiB | 10 KiB | // allocation un block 4
+|    7 KiB |  7 KiB |  8 KiB |  6 KiB | 10 KiB |  7 KiB | 10 KiB | // allocation in block 5
+|   16 KiB |  7 KiB |  8 KiB |  6 KiB | 10 KiB |  7 KiB | 10 KiB | // no space for the 16 KiB!
+
+===================================================================================================

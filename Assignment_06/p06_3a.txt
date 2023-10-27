@@ -20,20 +20,19 @@ Time        PID: A        PID: B        PID: C        PID: D        PID: E      
   14          DONE       running         READY         READY         READY  
   15          DONE       running         READY         READY         READY         READY              
   16          DONE       running         READY         READY         READY         READY
-  17          DONE          DONE         READY         READY         READY         READY 
+  17          DONE          DONE       running         READY         READY         READY 
   18          DONE          DONE       running         READY         READY         READY    
-  19          DONE          DONE       running         READY         READY         READY      
+  19          DONE          DONE          DONE       running         READY         READY      
   20          DONE          DONE          DONE       running         READY         READY      
   21          DONE          DONE          DONE       running         READY         READY     
   22          DONE          DONE          DONE       running         READY         READY    
   23          DONE          DONE          DONE       running         READY         READY      
-  24          DONE          DONE          DONE       running         READY         READY      
+  24          DONE          DONE          DONE          DONE       running         READY      
   25          DONE          DONE          DONE          DONE       running         READY         
   26          DONE          DONE          DONE          DONE       running         READY     
   27          DONE          DONE          DONE          DONE       running         READY     
-  28          DONE          DONE          DONE          DONE       running         READY     
-  29          DONE          DONE          DONE          DONE          DONE       running    
-  30          DONE          DONE          DONE          DONE          DONE          DONE
+  28          DONE          DONE          DONE          DONE          DONE       running     
+  29          DONE          DONE          DONE          DONE          DONE          DONE    
 
 ---------------------------------------------------------------------------------------------------
 
