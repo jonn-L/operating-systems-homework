@@ -1,6 +1,7 @@
 ===================================================================================================
 
 a) How many frames has the physical memory?
+
 a) 
 
 256 KiB = 262144 B
@@ -10,25 +11,33 @@ a)
 
 b) How many bits has an address in the logical address space and how many bits has an address
 in the physical address space?
+
 b) 
-AL = P + O
-AL - number of bits for address
-P - number of bits for page number
-O - number of bits for page offset
 
-P = log2(number_of_pages) = log2(16) = 4 bits
-O = log2(number_of_bytes_per_page) = log2(2048) = 11 bits
+The address in the logical sapce is made up of the page number and page offset. 
 
-AL = 4 bits + 11 bits = 15 bits
+Page number: since there are 16 pages, in order to uniquely identify them, the numbers from 0 to 15
+can be used. Since 15 in binary is 1111, and that is 4 bits, it means that to represent the page 
+number, 4 bits are needed.
+Page offset: since a page consists of 2048 bytes, in order to diffierentiate them, the numbers from
+0 to 2047 are used. Since 2047 is 11111111111 in binary, it means that the page offset is 11 bits.
+From this, it can be inferred that an address in the logical address space is 15 bits: 4 bits (page 
+number) + 11 (page offset).
 
-AP = log2(PM) = log2(262144) = 18 bits
-PM - number of bytes for phsyical memory
+As for for the address in the physical address space, it is made up of the frame number and the 
+page offset.
+Frame number: using the same logic as before, with 128 frames, the numbers from 0 to 127 are used. 
+Since 127 in binary is 1111111, it can be concluded that 7 bits are used for the frame number.
+Given that it takes 11 bits to represent the page offset, and 7 for the frame number, it means that
+18 bits are used to identify an address in the physical address space.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 c) How many bits are used for the page number and how many bits are used for the offset within
 a page?
+
 c)
+
 From the calculations in b), the number of bits used for the page number is 4, and the number of 
 bits used for the offset is 11 bits.
 

@@ -83,7 +83,6 @@ int read_io(int fd, char *file, int size) {
 }
 
 int main(int argc, char *argv[]) {
-    printf("%d\n", argc);
     // if no files are provided, read from STDIN
     if (argc == 1) {
         // get stdin stats
