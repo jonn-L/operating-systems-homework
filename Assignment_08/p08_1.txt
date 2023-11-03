@@ -1,0 +1,34 @@
+===================================================================================================
+
+Consider a operating system that uses paging for memory management with a page size of 2048 B.
+The logical address space of processes is limited to a maximum of 16 pages. The physical memory
+has a size of 256 KiB.
+
+a) How many frames has the physical memory?
+a) 
+256 KiB = 262144 B
+262144 B / 2048 B = 128 frames
+
+b) How many bits has an address in the logical address space and how many bits has an address
+in the physical address space?
+b) 
+AL = P + O
+AL - number of bits for address
+P - number of bits for page number
+O - number of bits for page offset
+
+P = log2(number_of_pages) = log2(16) = 4 bits
+O = log2(number_of_bytes_per_page) = log2(2048) = 11 bits
+
+AL = 4 bits + 11 bits = 15 bits
+
+AP = log2(PM) = log2(262144) = 18 bits
+PM - number of bytes for phsyical memory
+
+c) How many bits are used for the page number and how many bits are used for the offset within
+a page?
+c)
+From the calculations in b), the number of bits used for the page number is 4, and the number of 
+bits used for the offset is 11 bits.
+
+===================================================================================================
