@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "mman.h": "c"
-    }
-}
