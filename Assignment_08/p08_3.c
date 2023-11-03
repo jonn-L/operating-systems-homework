@@ -86,6 +86,7 @@ int read_io(int fd, char *file, int size) {
 int main(int argc, char *argv[]) {
     // if no files are provided, read from STDIN
     if (argc == 1) {
+        // get stdin stats
         struct stat stdin_stats;
         if (fstat(STDIN_FILENO, &stdin_stats) == -1) {
             perror("fstat");
@@ -93,11 +94,8 @@ int main(int argc, char *argv[]) {
             return EXIT_FAILURE;
         }
 
-        // Get the size of stdin
-        off_t size = stdin_stats.st_size;
-
-        // Read from stdin using read_io function
-        if (read_io(STDIN_FILENO, "STDIN", size) == -1) {
+        // read from stdin using read_io function
+        if (read_io(STDIN_FILENO, "STDIN", stdin_stats.st_size) == -1) {
             fprintf(stderr, "Error reading STDIN!\n");
             return EXIT_FAILURE;
         }
