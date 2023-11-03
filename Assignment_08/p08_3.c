@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
 #include <ctype.h>
 
 // function to count the number of lines
@@ -48,7 +47,7 @@ int count_words(char *content, int size) {
 int read_mmap(int fd, char *file, int size) {
     char *file_content = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fd, 0);
     if (file_content == MAP_FAILED) {
-        perror("mmap");
+        fprintf(stderr, "Could not map memory of %s!\n", file);
         return -1;
     }
 
@@ -58,7 +57,7 @@ int read_mmap(int fd, char *file, int size) {
     printf("%d\t%d\t%d\t%s\n", lines, words, size, file);
 
     if (munmap(file_content, size) == -1) {
-        perror("munmap");
+        fprintf(stderr, "Could not find unmap memory of %s!\n", file);
         return -1;
     }
 
@@ -71,7 +70,7 @@ int read_io(int fd, char *file, int size) {
 
     ssize_t bytes = read(fd, buffer, size);
     if (bytes == -1) {
-        perror("read");
+        fprintf(stderr, "Could not read %s!\n", file);
         return -1;
     }
 
@@ -84,19 +83,19 @@ int read_io(int fd, char *file, int size) {
 }
 
 int main(int argc, char *argv[]) {
+    printf("%d\n", argc);
     // if no files are provided, read from STDIN
     if (argc == 1) {
         // get stdin stats
         struct stat stdin_stats;
         if (fstat(STDIN_FILENO, &stdin_stats) == -1) {
-            perror("fstat");
-            fprintf(stderr, "Error getting stdin size!\n");
+            fprintf(stderr, "Could not get attributes for STDIN!\n");
             return EXIT_FAILURE;
         }
 
         // read from stdin using read_io function
         if (read_io(STDIN_FILENO, "STDIN", stdin_stats.st_size) == -1) {
-            fprintf(stderr, "Error reading STDIN!\n");
+            fprintf(stderr, "Could not read STDIN\n");
             return EXIT_FAILURE;
         }
     }
@@ -112,7 +111,7 @@ int main(int argc, char *argv[]) {
             // get file stats
             struct stat file_stats;
             if (fstat(fd, &file_stats) == -1) {
-                perror("fstat");
+                fprintf(stderr, "Could not get file attributes for %s!\n", argv[i]);
                 return EXIT_FAILURE;
             }
 
@@ -133,9 +132,11 @@ int main(int argc, char *argv[]) {
 
             // Handle errors while reading files    
             if (read_result == -1) {
-                fprintf(stderr, "Error reading %s!\n", argv[i]);
+                fprintf(stderr, "Could not read %s", argv[i]);
                 return EXIT_FAILURE;
             }
+
+            close(fd);
         }
     }
 

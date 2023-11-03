@@ -2,7 +2,7 @@
 
 a)
 
-Proccess 1:
+P1:
 +--------------+-----------------+
 | frame number | additional bits |
 +--------------+-----------------+
@@ -23,7 +23,7 @@ Proccess 1:
 |              |           ----- |
 +--------------+-----------------+
 
-Proccess 2:
+P2:
 +--------------+-----------------+
 | frame number | additional bits |
 +--------------+-----------------+
@@ -48,7 +48,95 @@ Proccess 2:
 
 b)
 
+After P1 loads page 1,2 (data segment) into the physical memory address 0x200 to modify a global 
+variable, and loads page 1,5 (heap segment) into the physical memory address 0x500 to dynamically
+allocate a string, the result page table will be this:
++--------------+-----------------+
+| frame number | additional bits |
++--------------+-----------------+
+|        0x800 |           r-x-v |
+|        0x600 |           r-x-v |
+|        0x200 |           rw-dv |
+|              |           ----- |
+|              |           ----- |
+|        0x500 |           rw-dv |
+|        0xB00 |           rw-dv |
+|              |           ----- |
+|        0x300 |           rw-dv |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
++--------------+-----------------+
 
+After P2 loads page 2,6 into physical memory address 0x700 to allocate 16 bytes on the heap, this
+will be the final page table for P2:
++--------------+-----------------+
+| frame number | additional bits |
++--------------+-----------------+
+|        0x900 |           r-x-v |
+|        0xC00 |           r-x-v |
+|              |           ----- |
+|              |           ----- |
+|        0x400 |           rw-dv |
+|        0x100 |           rw-dv |
+|        0x700 |           rw-dv |
+|              |           ----- |
+|              |           rw-d- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
++--------------+-----------------+
 
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+c) 
+
+Proccess 1:
++--------------+-----------------+
+| frame number | additional bits |
++--------------+-----------------+
+|        0x800 |           r-x-v |
+|        0x600 |           r-x-v |
+|              |           rw-d- |
+|              |           ----- |
+|        0x200 |           rw-dv | // 0x200 since that is the first available frame
+|              |           rw-d- |
+|        0xB00 |           rw-dv |
+|              |           ----- |
+|        0x300 |           rw-dv |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
++--------------+-----------------+
+
+Proccess 2:
++--------------+-----------------+
+| frame number | additional bits |
++--------------+-----------------+
+|        0x900 |           r-x-v |
+|        0xC00 |           r-x-v |
+|        0x200 |           rw-dv |  // 0x200 since that is the first available frame
+|              |           ----- |
+|        0x400 |           rw-dv |
+|        0x100 |           rw-dv |
+|              |           rw-d- |
+|              |           ----- |
+|              |           rw-d- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
+|              |           ----- |
++--------------+-----------------+
 
 ===================================================================================================
