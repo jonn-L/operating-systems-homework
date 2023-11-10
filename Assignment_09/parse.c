@@ -13,7 +13,7 @@ int parse(quiz_t *quiz, char *msg)
     root = json_loads(msg, 0, &error);
 
     if (root == NULL) {
-        perror("json_loads");
+        fprintf(stderr, "json_loads: failed!\n");
         return EXIT_FAILURE;
     }
 
