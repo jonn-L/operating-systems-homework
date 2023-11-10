@@ -45,10 +45,6 @@ char *fetch(char *url)
             fprintf(stderr, "malloc: failed!\n");
             close(pipefd[0]);
             
-            // wait for the child process to finish
-            if (waitpid(pid, NULL, 0) == -1) {
-                fprintf(stderr, "waitpid: failed!\n");
-            }
             exit(EXIT_FAILURE);
         }
 
@@ -75,12 +71,6 @@ char *fetch(char *url)
         result[bytes_read_total] = '\0';
 
         close(pipefd[0]);
-        
-        // Wait for the child process to finish
-        if (waitpid(pid, NULL, 0) == -1) {
-            fprintf(stderr, "waitpid: failed!\n");
-            exit(EXIT_FAILURE);
-        }
     }
 
     return result;
