@@ -9,6 +9,7 @@ quiz_t quiz = { .score = 0, .n = 1, .max = 8 };
 
 static void sig_action(int signum, siginfo_t *siginfo, void *unused);
 
+// signal installer
 static void sig_install(void)
 {
     struct sigaction sa;
@@ -16,23 +17,35 @@ static void sig_install(void)
     sa.sa_sigaction = sig_action;
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_SIGINFO | SA_RESTART;
+
     if (sigaction(SIGINT, &sa, NULL) == -1) {
         perror("sigaction");
         exit(EXIT_FAILURE);
     }
 }
-
+// signal handler
 static void sig_action(int signum, siginfo_t *siginfo, void *unused)
 {
     (void) unused;
+
     if (siginfo && siginfo->si_code <= 0) {
-        fprintf(stderr, "catp: sig_action: %s (from pid %d, uid %d)\n",
-                strsignal(signum), siginfo->si_pid, siginfo->si_uid);
+        fprintf(stderr, "sig_action: failed!\n");
+        exit(EXIT_FAILURE);
     } else {
-        fprintf(stderr, "catp: sig_action: %s\n", strsignal(signum));
+        free(quiz.question);
+        for (size_t i = 0; i < 4; i++) {
+            free(quiz.choices[i]);
+        }
+
+        // cover case where max is overcounted
+        if (quiz.n != 1) {
+            quiz.max -= 8;
+        }
+        printf("\n\nThanks for playing today.\n"
+               "Your final score is %d/%d.\n", quiz.score, quiz.max);
+        exit(EXIT_SUCCESS);
     }
 }
-
 
 int main(void) 
 {
@@ -43,10 +56,18 @@ int main(void)
            " If you need multiple attempts to answer a question, the"
            "points you score for a correct answer go down.\n\n");
 
-
     while (1) {
-        play(&quiz);
+        // call the play function to start a quiz round
+        if (play(&quiz) == -1) {
+            fprintf(stderr, "play: failed!\n");
+            return EXIT_FAILURE;
+        }
+        
+        // free memory allocated for the quiz question, answer, and choices
+        free(quiz.question);
+        free(quiz.answer);
+        for (size_t i = 0; i < 4; i++) {
+            free(quiz.choices[i]);
+        }
     }
-
-    return EXIT_SUCCESS;
 }

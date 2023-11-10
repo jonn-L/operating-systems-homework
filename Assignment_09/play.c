@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 
+// convert a choice ('a' to 'd') to an array index (0 to 3)
 int convert_to_index(char choice) {
     switch (choice)
     {
@@ -16,10 +17,11 @@ int convert_to_index(char choice) {
         case 'd':
             return 3;
         default:
-            return -1;
+            return -1;  // invalid choice
     }
 }
 
+// swap two char pointers
 void swap(char **a, char **b) 
 {
     char *temp = *a;
@@ -27,6 +29,7 @@ void swap(char **a, char **b)
     *b = temp;
 }
 
+// randomize the order of answers in the array
 void randomize_answers(char *arr[4]) 
 {
     srand(time(NULL));
@@ -41,6 +44,7 @@ int play(quiz_t *quiz)
 {
     char *url = "https://opentdb.com/api.php?amount=1&category=18&type=multiple";
 
+    // fetch the quiz question and anwers from the URL
     char *fetch_result = fetch(url);
     if (parse(quiz, fetch_result) == -1) {
         fprintf(stderr, "parse: failed!\n");
@@ -49,9 +53,8 @@ int play(quiz_t *quiz)
     free(fetch_result);
 
     char ch = 'a';
+    // print the quiz question and randomized answer choices
     printf("%s\n\n", quiz->question);
-    char *correct_choice = quiz->choices[0];
-
     randomize_answers(quiz->choices);
     for (size_t i = 0; i < 4; i++) {
         printf("[%c] %s\n", ch, quiz->choices[i]);
@@ -64,7 +67,23 @@ int play(quiz_t *quiz)
     while (points != 1) {
 
         printf("(%ldpt) > ", points);
-        scanf(" %c", &choice);
+        // get user input for the answer choice
+        if (scanf(" %c", &choice) == EOF) {
+            // handle CTRL+D
+            free(quiz->answer);
+            free(quiz->question);
+            for (size_t i = 0; i < 4; i++) {
+                free(quiz->choices[i]);
+            }
+
+            // cover case where max is overcounted
+            if (quiz->n != 1) {
+                quiz->max -= 8;
+            }
+            printf("\n\nThanks for playing today.\n"
+                "Your final score is %d/%d.\n", quiz->score, quiz->max);
+            exit(EXIT_SUCCESS);
+        }
 
         int index = convert_to_index(choice);
         if (index == -1) {
@@ -72,9 +91,9 @@ int play(quiz_t *quiz)
             continue;
         }
 
-        if (strcmp(correct_choice, quiz->choices[index]) == 0) {
+        if (strcmp(quiz->answer, quiz->choices[index]) == 0) {
             quiz->score += points;
-            printf("Congratulation, answer [%c] is correct. Your current score is %d/%d points.\n\n", choice, quiz->score, quiz->max);
+            printf("Congratulations, answer [%c] is correct. Your current score is %d/%d points.\n\n", choice, quiz->score, quiz->max);
             break;
         } else {
             if (points == 2) {
