@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/wait.h>
 
 #define INTIAL_BUFF_SIZE 256
 
@@ -62,7 +61,6 @@ char *fetch(char *url)
                 if (result == NULL) {
                     fprintf(stderr, "realloc: failed!\n");
                     close(pipefd[0]);
-                    waitpid(pid, NULL, 0);
                     exit(EXIT_FAILURE);
                 }
             }
